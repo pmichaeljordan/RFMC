@@ -6,6 +6,7 @@ import datetime
 import numpy as np
 from excel_writer import ExcelWriter, DataProcessor
 
+# Reformats the sheet sent from NCMEC into something more readable.
 
 def get_formatted_date():
     today = datetime.date.today()
