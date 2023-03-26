@@ -35,6 +35,7 @@ def process_dataframes(latest_file):
     riders_df.loc[:, 'Home Phone'] = riders_df['Home Phone'].replace({'nan': None})
 
     riders_df = riders_df.iloc[:, :riders_df.columns.get_loc('Billing Email Address')+1]
+    riders_df = df.sort_values(by='Attendee Last Name', ascending=True)
 
 
 # Rename the headers for the addon_riders_df
@@ -49,6 +50,7 @@ def process_dataframes(latest_file):
         'Are you a New or Returning Participant?': 'Email Address'
     })
     addon_riders_df = addon_riders_df.drop(columns=['Birth Date'])
+    addon_riders_df = df.sort_values(by='Attendee Last Name', ascending=True)
 
     volunteers_start = addon_riders_end + 1
     volunteers_df = df.iloc[volunteers_start:].dropna(axis='columns', how='all')
@@ -76,6 +78,7 @@ def process_dataframes(latest_file):
     volunteers_df.loc[:, 'Secondary Phone'] = volunteers_df['Secondary Phone'].apply(DataProcessor.format_phone_number)
     volunteers_df.loc[:, 'Secondary Phone'] = volunteers_df['Secondary Phone'].replace({np.nan: None})
     volunteers_df.loc[:, 'Secondary Phone'] = volunteers_df['Secondary Phone'].replace({'nan': None})
+    volunteers_df = df.sort_values(by='Attendee Last Name', ascending=True)
 
 
     return riders_df, addon_riders_df, volunteers_df

@@ -20,8 +20,6 @@ riders_df['Name'] = riders_df['Attendee First Name'] + ' ' + riders_df['Attendee
 riders_df['Given Name'] = riders_df['Attendee First Name']
 riders_df['Family Name'] = riders_df['Attendee Last Name']
 riders_df = riders_df.rename(columns={
-        # 'Attendee First Name': 'Given Name',
-        # 'Attendee Last Name': 'Family Name',
         'Billing Email Address': 'E-mail 1 - Value',
         'Cell Phone': 'Phone 1 - Value',
         })
@@ -47,3 +45,4 @@ os.makedirs(output_folder, exist_ok=True)
 output_file = os.path.splitext(input_file)[0]
 riders_df.to_csv(os.path.join(output_folder, f'{output_file}_riders.csv'), columns=output_headers, index=False)
 
+import compare_dataframes
