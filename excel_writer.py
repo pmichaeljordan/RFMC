@@ -44,8 +44,8 @@ class ExcelWriter:
             df.to_excel(self.writer, sheet_name=sheet_name, index=False)
             worksheet = self.writer.sheets[sheet_name]
             self.adjust_column_width(worksheet, df)
-            self.apply_date_format(worksheet, df, 'Created Date', 'MM/DD/YYYY')
-            self.apply_date_format(worksheet, df, 'Birth Date', 'MM/DD/YYYY')
+            # self.apply_date_format(worksheet, df, 'Created Date', 'MM/DD/YYYY')
+            # self.apply_date_format(worksheet, df, 'Birth Date', 'MM/DD/YYYY')
 
     def adjust_column_width(self, worksheet, df):
         for idx, col in enumerate(df.columns):
