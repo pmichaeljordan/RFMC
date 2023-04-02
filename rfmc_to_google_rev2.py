@@ -16,9 +16,9 @@ riders_df = df.copy()
 
 
 # Process the regular DataFrame
-riders_df['Name'] = riders_df['Attendee First Name'] + ' ' + riders_df['Attendee Last Name']
-riders_df['Given Name'] = riders_df['Attendee First Name']
-riders_df['Family Name'] = riders_df['Attendee Last Name']
+riders_df['Name'] = riders_df['Attendee First Name'].str.title() + ' ' + riders_df['Attendee Last Name'].str.title()
+riders_df['Given Name'] = riders_df['Attendee First Name'].str.title()
+riders_df['Family Name'] = riders_df['Attendee Last Name'].str.title()
 riders_df = riders_df.rename(columns={
         'Billing Email Address': 'E-mail 1 - Value',
         'Cell Phone': 'Phone 1 - Value',
