@@ -22,6 +22,7 @@ riders_df['Family Name'] = riders_df['Attendee Last Name'].str.title()
 riders_df = riders_df.rename(columns={
         'Billing Email Address': 'E-mail 1 - Value',
         'Cell Phone': 'Phone 1 - Value',
+        'Are you a New or Returning Participant?': 'Notes',
         })
 
 
