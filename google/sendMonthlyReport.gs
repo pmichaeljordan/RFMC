@@ -1,4 +1,4 @@
-// trigger to send on first of month automatically, will send prior months hours
+// trigger to send on first of month automatically, will send prior months hours with total
 function sendMonthlyReport() {
   var sheet = SpreadsheetApp.getActiveSheet();
   var data = sheet.getDataRange().getValues();

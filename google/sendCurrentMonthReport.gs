@@ -1,3 +1,4 @@
+//trigger manually on request
 function sendCurrentMonthReport() {
   var sheet = SpreadsheetApp.getActiveSheet();
   var data = sheet.getDataRange().getValues();
