@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countdown Timer</title>
+  <style>
+    /* Configurable CSS variables */
+    :root {
+      --circleColor: darkblue;      /* Background color for the circles */
+      --circleTextColor: white;       /* Font color for digits inside the circles */
+      --textColor: white;           /* Font color for labels, separators, and other text */
+    }
+    /* Transparent background and setting general text color */
+    body {
+      background-color: transparent;
+      color: var(--textColor);
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 20px;
+      margin: 0;
+    }
+    /* Header above the timer */
+    h1 {
+      margin: 20px 0;
+    }
+    /* Container that holds all time groups and separators */
+    .time-groups-container {
+      display: flex;
+      align-items: flex-start; /* Align groups at the top */
+      justify-content: center;
+    }
+    /* Each time group (Days, Hours, Min, Sec) */
+    .time-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Container for the digit circles within a group */
+    .digits {
+      display: flex;
+      gap: 10px;
+      height: 60px;            /* Fixed height matching each digit circle */
+      align-items: center;
+    }
+    /* Individual digit circles */
+    .digit {
+      background-color: var(--circleColor);
+      color: var(--circleTextColor);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5em;
+    }
+    /* Label below each group; extra margin to space it further from the digits */
+    .label {
+      margin-top: 20px;
+      font-size: 1em;
+    }
+    /* Vertical separator line between groups */
+    .separator {
+      width: 2px;
+      background-color: var(--textColor);
+      margin: 0 10px;
+      height: 60px;
+      flex-shrink: 0;
+    }
+    /* Message styling for in-progress or finished status */
+    .message {
+      font-size: 2em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- H2 header -->
+  <h1>Countdown to The Ride</h1>
+
+  <!-- Container for time groups with separators -->
+  <div id="timerDisplay" class="time-groups-container">
+    <!-- Days Group -->
+    <div class="time-group" id="days-group">
+      <div class="digits"></div>
+      <div class="label">Days</div>
+    </div>
+    <!-- Separator -->
+    <div class="separator"></div>
+    <!-- Hours Group -->
+    <div class="time-group" id="hours-group">
+      <div class="digits"></div>
+      <div class="label">Hours</div>
+    </div>
+    <!-- Separator -->
+    <div class="separator"></div>
+    <!-- Minutes Group -->
+    <div class="time-group" id="minutes-group">
+      <div class="digits"></div>
+      <div class="label">Min</div>
+    </div>
+    <!-- Separator -->
+    <div class="separator"></div>
+    <!-- Seconds Group -->
+    <div class="time-group" id="seconds-group">
+      <div class="digits"></div>
+      <div class="label">Sec</div>
+    </div>
+  </div>
+
+  <!-- Message area -->
+  <div id="message" class="message"></div>
+
+  <script>
+    // Define the event start (June 6, 2025, 8:00AM) and event end (June 6, 2025, 5:00PM)
+    const eventStart = new Date("June 6, 2025 08:15:00");
+    const eventEnd = new Date("June 6, 2025 17:00:00");
+
+    // Configurable ride route link; change this URL to your ride route.
+    const rideRouteURL = "https://docs.google.com/spreadsheets/d/1tQeCAoH5Gn6_-7H0LIWfsMqVVrrGZKee";
+
+    // Helper function to split a number into its digits, padding with zeros as needed.
+    function splitIntoDigits(value, padLength) {
+      let str = value.toString();
+      if (padLength) {
+        str = str.padStart(padLength, '0');
+      }
+      return str.split('');
+    }
+
+    // Updates the digit circles for a specified time group.
+    function updateGroup(groupId, value, padLength) {
+      const container = document.querySelector(`#${groupId} .digits`);
+      const digits = splitIntoDigits(value, padLength);
+      container.innerHTML = digits.map(digit => `<div class="digit">${digit}</div>`).join('');
+    }
+
+    // Main timer update function.
+    function updateTimer() {
+      const now = new Date();
+
+      // Check if the event is in progress (between start and end)
+      if (now >= eventStart && now < eventEnd) {
+        document.getElementById("timerDisplay").style.display = "none";
+        // Display a clickable link that uses the site's default URL styling.
+        document.getElementById("message").innerHTML =
+          '<a href="' + rideRouteURL + '" target="_blank">Click here to find us on our route!</a>';
+      }
+      // Check if the event is over (after end)
+      else if (now >= eventEnd) {
+        document.getElementById("timerDisplay").style.display = "none";
+        document.getElementById("message").textContent = "See you next year!";
+      }
+      // Otherwise, show the countdown timer.
+      else {
+        document.getElementById("timerDisplay").style.display = "flex";
+        document.getElementById("message").textContent = "";
+        const timeDiff = eventStart - now;
+
+        const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+
+        // Update each time group with a padded 2-digit string.
+        updateGroup('days-group', days, 2);
+        updateGroup('hours-group', hours, 2);
+        updateGroup('minutes-group', minutes, 2);
+        updateGroup('seconds-group', seconds, 2);
+      }
+    }
+
+    // Initial call and update every second.
+    updateTimer();
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
